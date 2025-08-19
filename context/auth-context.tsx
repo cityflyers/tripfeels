@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut, 
-         createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, getIdToken } from 'firebase/auth';
+         createUserWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, getRedirectResult, getIdToken } from 'firebase/auth';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 import { FirebaseUser, User, UserRole } from '@/lib/types';
@@ -26,13 +26,97 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isRedirectLoading, setIsRedirectLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
+  // Handle redirect result on component mount
+  useEffect(() => {
+    const handleRedirectResult = async () => {
+      try {
+        setIsRedirectLoading(true);
+        const result = await getRedirectResult(auth);
+        
+        if (result && result.user) {
+          console.log('Google redirect sign-in successful:', result.user.email);
+          
+          // Create/update user document in Firestore
+          const userDocRef = doc(db, 'users', result.user.uid);
+          
+          // Only set role to 'USER_ADMIN' if user doc does not exist
+          const userDocSnap = await getDoc(userDocRef);
+          let userData;
+          if (userDocSnap.exists()) {
+            // Keep existing role and update other fields
+            userData = {
+              ...userDocSnap.data(),
+              uid: result.user.uid,
+              email: result.user.email,
+              displayName: result.user.displayName,
+              photoURL: result.user.photoURL,
+              lastLogin: serverTimestamp(),
+              updatedAt: serverTimestamp(),
+            };
+          } else {
+            // New user, set default role
+            userData = {
+              uid: result.user.uid,
+              email: result.user.email,
+              displayName: result.user.displayName,
+              photoURL: result.user.photoURL,
+              role: 'USER_ADMIN',
+              status: 'active',
+              createdAt: serverTimestamp(),
+              lastLogin: serverTimestamp(),
+              updatedAt: serverTimestamp(),
+            };
+          }
+          await setDoc(userDocRef, userData, { merge: true });
+          console.log('Firestore update successful after redirect');
+
+          toast({
+            title: 'Success',
+            description: 'Signed in with Google successfully!',
+          });
+        }
+      } catch (error: any) {
+        console.error('Error handling redirect result:', error);
+        
+        // Only show error toast if there was actually an error (not just no redirect result)
+        if (error.code && error.code !== 'auth/no-redirect-result') {
+          let errorMessage = 'Failed to complete Google sign-in. Please try again.';
+          
+          switch (error.code) {
+            case 'auth/unauthorized-domain':
+              errorMessage = 'This domain is not authorized for Google sign-in. Please contact support.';
+              break;
+            case 'auth/operation-not-allowed':
+              errorMessage = 'Google sign-in is not enabled. Please contact support.';
+              break;
+            default:
+              errorMessage = `Authentication failed: ${error.message}`;
+          }
+
+          toast({
+            title: 'Sign In Error',
+            description: errorMessage,
+            variant: 'destructive',
+          });
+        }
+      } finally {
+        setIsRedirectLoading(false);
+      }
+    };
+
+    handleRedirectResult();
+  }, [toast]);
   // Listen for Firebase auth state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      setLoading(true);
+      // Don't set loading if we're handling a redirect
+      if (!isRedirectLoading) {
+        setLoading(true);
+      }
       
       if (firebaseUser) {
         // Get the ID token
@@ -84,12 +168,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(null);
       }
       
-      setLoading(false);
+      // Don't set loading to false if we're handling a redirect
+      if (!isRedirectLoading) {
+        setLoading(false);
+      }
     });
 
     // Cleanup subscription
     return () => unsubscribe();
-  }, [toast]);
+  }, [toast, isRedirectLoading]);
 
   // Sign in with email and password
   const signInWithEmail = async (email: string, password: string) => {
@@ -125,7 +212,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Sign in with Google
   const signInWithGoogle = async () => {
     try {
-      setLoading(true);
+      setIsRedirectLoading(true);
       const provider = new GoogleAuthProvider();
       
       // Configure provider
@@ -134,56 +221,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         login_hint: 'user@example.com'
       });
 
-      console.log('Initiating Google sign-in...');
-      const result = await signInWithPopup(auth, provider);
-      console.log('Google sign-in successful:', result.user.email);
-
-      if (!result.user) {
-        throw new Error('No user data returned from Google sign in');
-      }
-
-      // Create/update user document in Firestore
-      const userDocRef = doc(db, 'users', result.user.uid);
-      
-      // Only set role to 'USER_ADMIN' if user doc does not exist
-      const userDocSnap = await getDoc(userDocRef);
-      let userData;
-      if (userDocSnap.exists()) {
-        // Keep existing role and update other fields
-        userData = {
-          ...userDocSnap.data(),
-          uid: result.user.uid,
-          email: result.user.email,
-          displayName: result.user.displayName,
-          photoURL: result.user.photoURL,
-          lastLogin: serverTimestamp(),
-          updatedAt: serverTimestamp(),
-        };
-      } else {
-        // New user, set default role
-        userData = {
-          uid: result.user.uid,
-          email: result.user.email,
-          displayName: result.user.displayName,
-          photoURL: result.user.photoURL,
-          role: 'USER_ADMIN',
-          status: 'active',
-          createdAt: serverTimestamp(),
-          lastLogin: serverTimestamp(),
-          updatedAt: serverTimestamp(),
-        };
-      }
-      await setDoc(userDocRef, userData, { merge: true });
-      console.log('Firestore update successful');
-
-      toast({
-        title: 'Success',
-        description: 'Signed in with Google successfully!',
-      });
-
-      router.push('/dashboard');
+      console.log('Initiating Google sign-in redirect...');
+      await signInWithRedirect(auth, provider);
+      // The redirect will happen automatically, no need to handle the result here
     } catch (error: any) {
-      console.error('Detailed Google sign-in error:', {
+      console.error('Detailed Google redirect sign-in error:', {
         code: error.code,
         message: error.message,
         fullError: error
@@ -193,17 +235,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       let title = 'Sign In Error';
 
       switch (error.code) {
-        case 'auth/popup-closed-by-user':
-          errorMessage = 'Sign-in window was closed. Please try again.';
-          title = 'Sign In Cancelled';
-          break;
-        case 'auth/popup-blocked':
-          errorMessage = 'Pop-up was blocked by your browser. Please allow pop-ups and try again.';
-          title = 'Pop-up Blocked';
-          break;
         case 'auth/unauthorized-domain':
           errorMessage = 'This domain is not authorized for Google sign-in. Please contact support.';
           title = 'Domain Error';
+          break;
+        case 'auth/operation-not-allowed':
+          errorMessage = 'Google sign-in is not enabled. Please contact support.';
+          title = 'Configuration Error';
           break;
         default:
           errorMessage = `Authentication failed: ${error.message}`;
@@ -215,7 +253,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         variant: 'destructive',
       });
     } finally {
-      setLoading(false);
+      setIsRedirectLoading(false);
     }
   };
 
@@ -307,7 +345,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const value = {
     user,
     firebaseUser,
-    loading,
+    loading: loading || isRedirectLoading,
     signInWithEmail,
     signInWithGoogle,
     logout,
