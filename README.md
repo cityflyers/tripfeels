@@ -21,7 +21,22 @@ npm install
 ```
 
 ### 3. Set up environment variables
-Create a `.env.local` file in the root directory and add any required environment variables. (See `.env.example` if available.)
+Create a `.env.local` file in the root directory with your Firebase configuration:
+
+```bash
+# Firebase Configuration
+NEXT_PUBLIC_FIREBASE_API_KEY="your-api-key-here"
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="your-project-id.firebaseapp.com"
+NEXT_PUBLIC_FIREBASE_PROJECT_ID="your-project-id"
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="your-project-id.appspot.com"
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="your-messaging-sender-id"
+NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"
+
+# API Configuration
+NEXT_PUBLIC_API_URL="your-api-url-here"
+```
+
+**Important:** Replace the placeholder values with your actual Firebase project configuration. You can find these values in your Firebase Console under Project Settings > General > Your apps.
 
 ### 4. Run the application in development
 ```bash
