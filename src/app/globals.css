@@ -982,26 +982,34 @@ body[style*='scroll-behavior'] {
 @layer utilities {
   /* Cards and panels */
   .glass-card {
-    @apply bg-background/80 dark:bg-background/70 backdrop-blur-md border border-border/70 shadow-lg rounded-xl;
+    background-color: var(--tf-component-bg);
+    @apply backdrop-blur-md border border-border shadow-lg rounded-xl;
+    opacity: 0.98;
   }
   .glass-panel {
-    @apply bg-background/80 dark:bg-background/70 backdrop-blur-md border border-border/70 rounded-xl;
+    background-color: var(--tf-component-bg);
+    @apply backdrop-blur-md border border-border rounded-xl;
+    opacity: 0.98;
   }
   .glass-surface {
-    @apply bg-card/75 dark:bg-card/70 backdrop-blur-md border border-border/60 rounded-xl;
+    background-color: var(--tf-surface);
+    @apply backdrop-blur-md border border-border rounded-xl;
+    opacity: 0.95;
   }
   .glass-border {
-    @apply border-border/70;
+    @apply border-border;
   }
 
   /* Inputs */
   .glass-input {
-    @apply h-10 bg-background/80 dark:bg-background/70 backdrop-blur-sm border border-border/70 text-foreground placeholder:text-muted-foreground rounded-lg;
+    background-color: var(--tf-input-fill);
+    @apply h-10 backdrop-blur-sm border border-border text-foreground placeholder:text-muted-foreground rounded-lg;
   }
 
   /* Tabs container */
   .glass-tabs {
-    @apply bg-card/80 dark:bg-card/70 backdrop-blur-sm border border-border/70 rounded-lg;
+    background-color: var(--tf-component-bg);
+    @apply backdrop-blur-sm border border-border rounded-lg;
   }
 
   /* Trip types (Oneway / Roundtrip / Multicity) surface */
