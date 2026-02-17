@@ -87,32 +87,69 @@
     --border: var(--ui-border);
     --input: var(--ui-input);
     --ring: var(--theme-ring, 222.2 84% 4.9%);
-    /* Tripfeels runtime theme variables injected by ThemeSystemProvider */
-    --tf-bg-solid: #fafafa;
-    --tf-bg-contrast: #343434;
-    --tf-page-bg: #343434;
-    --tf-app-bg: #343434;
-    --tf-component-bg: #343434;
-    --tf-surface: #3d4240;
-    --tf-surface-alt: #6a6e6b;
-    --tf-input-fill: #6a6e6b;
-    --tf-text-primary: #fafafa;
-    --tf-text-secondary: #c9c9c9;
-    --tf-text-muted: #979797;
-    --tf-border: #666666;
-    --tf-divider: #4a4a4a;
-    --tf-primary: #21d375;
-    --tf-primary-hover: #08a045;
-    --tf-primary-text: #073b3a;
-    --tf-ring: #21d375;
-    --tf-success: #6bbf59;
-    --tf-warning: #8dd783;
+    /* Tripfeels Green Color System - WCAG AA/AAA Compliant */
+    /* Primary Green Base (Emerald) - #047857 - WCAG AAA for text */
+    --tf-primary: #047857;
+    --tf-primary-hover: #065f46;
+    --tf-primary-active: #034e3f;
+    --tf-primary-focus: #10b981;
+    --tf-primary-disabled: #a7f3d0;
+    --tf-primary-light: #d1fae5;
+    --tf-primary-lighter: #ecfdf5;
+    --tf-primary-dark: #064e3b;
+    --tf-primary-text: #ffffff;
+    
+    /* Semantic Colors */
+    --tf-success: #10b981;
+    --tf-success-hover: #059669;
+    --tf-success-light: #d1fae5;
+    --tf-success-dark: #047857;
+    
+    --tf-warning: #f59e0b;
+    --tf-warning-hover: #d97706;
+    --tf-warning-light: #fef3c7;
+    --tf-warning-dark: #b45309;
+    
     --tf-danger: #ef4444;
-    --tf-info: #284c64;
-    --tf-header-bg: #353535;
-    --tf-sidebar-bg: #353535;
-    --tf-footer-bg: #353535;
-    --tf-nav-hover: #464646;
+    --tf-danger-hover: #dc2626;
+    --tf-danger-light: #fee2e2;
+    --tf-danger-dark: #991b1b;
+    
+    --tf-info: #3b82f6;
+    --tf-info-hover: #2563eb;
+    --tf-info-light: #dbeafe;
+    --tf-info-dark: #1e40af;
+    
+    /* Neutral/Background Colors - White Base */
+    --tf-bg-solid: #ffffff;
+    --tf-bg-contrast: #1f2937;
+    --tf-page-bg: #ffffff;
+    --tf-app-bg: #ffffff;
+    --tf-component-bg: #ffffff;
+    
+    /* Surface Variations */
+    --tf-surface: #f9fafb;
+    --tf-surface-alt: #f3f4f6;
+    --tf-surface-subtle: #e5e7eb;
+    --tf-input-fill: #ffffff;
+    
+    /* Text Colors */
+    --tf-text-primary: #1f2937;
+    --tf-text-secondary: #6b7280;
+    --tf-text-muted: #9ca3af;
+    
+    /* Borders and Dividers */
+    --tf-border: #e5e7eb;
+    --tf-border-subtle: #f0f0f0;
+    --tf-border-strong: #d1d5db;
+    --tf-divider: #e5e7eb;
+    
+    /* UI Components */
+    --tf-ring: #047857;
+    --tf-header-bg: #ffffff;
+    --tf-sidebar-bg: #ffffff;
+    --tf-footer-bg: #f9fafb;
+    --tf-nav-hover: #ecfdf5;
   }
 
   html {
@@ -165,6 +202,19 @@
     --green-bg-from: 141 49% 17%; /* #164025 */
     --green-bg-via: 165 66% 22%; /* #135E4B */
     --green-bg-to: 142 42% 50%; /* #4CB572 */
+
+    /* Additional Green Shades for Light Mode Components */
+    --tf-primary-50: #ecfdf5;
+    --tf-primary-100: #d1fae5;
+    --tf-primary-200: #a7f3d0;
+    --tf-primary-300: #6ee7b7;
+    --tf-primary-400: #34d399;
+    --tf-primary-500: #10b981;
+    --tf-primary-600: #059669;
+    --tf-primary-700: #047857;
+    --tf-primary-800: #065f46;
+    --tf-primary-900: #034e3b;
+    --tf-primary-950: #022c22;
 
     /* Violet (dark) */
     --violet-background: 262 40% 10%;

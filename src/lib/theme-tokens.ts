@@ -33,29 +33,40 @@ export type ThemeTokens = Record<ThemeTokenKey, string>
 export const DEFAULT_THEME_MODE: ThemeMode = 'default'
 
 export const DEFAULT_THEME_TOKENS: ThemeTokens = {
-  pageBg: '#343434',
-  appBg: '#343434',
-  componentBg: '#343434',
-  surface: '#3D4240',
-  surfaceAlt: '#6A6E6B',
-  inputFill: '#6A6E6B',
-  textPrimary: '#FAFAFA',
-  textSecondary: '#C9C9C9',
-  textMuted: '#979797',
-  border: '#666666',
-  divider: '#4A4A4A',
-  primary: '#21D375',
-  primaryHover: '#08A045',
-  primaryText: '#073B3A',
-  ring: '#21D375',
-  success: '#6BBF59',
-  warning: '#8DD783',
+  // Background Colors - White Base
+  pageBg: '#FFFFFF',
+  appBg: '#FFFFFF',
+  componentBg: '#FFFFFF',
+  surface: '#F9FAFB',
+  surfaceAlt: '#F3F4F6',
+  inputFill: '#FFFFFF',
+  
+  // Text Colors - Dark for contrast
+  textPrimary: '#1F2937',
+  textSecondary: '#6B7280',
+  textMuted: '#9CA3AF',
+  
+  // Border and Divider - Light gray
+  border: '#E5E7EB',
+  divider: '#E5E7EB',
+  
+  // Primary Green Brand Colors
+  primary: '#047857',
+  primaryHover: '#065F46',
+  primaryText: '#FFFFFF',
+  ring: '#047857',
+  
+  // Semantic Colors
+  success: '#10B981',
+  warning: '#F59E0B',
   danger: '#EF4444',
-  info: '#284C64',
-  headerBg: '#353535',
-  sidebarBg: '#353535',
-  footerBg: '#353535',
-  navHover: '#464646',
+  info: '#3B82F6',
+  
+  // Component Backgrounds
+  headerBg: '#FFFFFF',
+  sidebarBg: '#FFFFFF',
+  footerBg: '#F9FAFB',
+  navHover: '#ECFDF5',
 }
 
 const HEX_PATTERN = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/

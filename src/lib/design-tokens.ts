@@ -44,31 +44,39 @@ export const colors = {
     secondary: 'text-[var(--tf-text-secondary)]',
     muted: 'text-[var(--tf-text-muted)]',
     inverse: 'text-[var(--tf-primary-text)]',
-    accent: 'text-primary',
+    accent: 'text-[var(--tf-primary)]',
     success: 'text-[var(--tf-success)]',
     warning: 'text-[var(--tf-warning)]',
     error: 'text-[var(--tf-danger)]',
   },
   gradient: {
     primary: 'bg-[var(--tf-app-bg)]',
-    subtle: 'bg-[var(--tf-app-bg)]',
-    accent: 'bg-primary',
+    subtle: 'bg-[var(--tf-surface)]',
+    accent: 'bg-[var(--tf-primary)]',
   },
   brand: {
-    primary: 'bg-primary',
+    primary: 'bg-[var(--tf-primary)]',
     primaryHover: 'hover:bg-[var(--tf-primary-hover)]',
-    primaryBorder: 'border-primary/65',
-    secondary: 'bg-[var(--tf-info)]',
-    secondaryHover: 'hover:bg-[var(--tf-primary-hover)]',
+    primaryActive: 'active:bg-[var(--tf-primary-active)]',
+    primaryBorder: 'border-[var(--tf-primary)]',
+    primaryLight: 'bg-[var(--tf-primary-light)]',
+    secondary: 'bg-[var(--tf-surface-alt)]',
+    secondaryHover: 'hover:bg-[var(--tf-surface-subtle)]',
     secondaryBorder: 'border-[var(--tf-border)]',
   },
   status: {
     success: 'bg-[var(--tf-success)]',
-    successHover: 'hover:bg-[var(--tf-success)]/90',
+    successHover: 'hover:bg-[var(--tf-success-hover)]',
+    successLight: 'bg-[var(--tf-success-light)]',
     warning: 'bg-[var(--tf-warning)]',
-    warningHover: 'hover:bg-[var(--tf-warning)]/90',
+    warningHover: 'hover:bg-[var(--tf-warning-hover)]',
+    warningLight: 'bg-[var(--tf-warning-light)]',
     error: 'bg-[var(--tf-danger)]',
-    errorHover: 'hover:bg-[var(--tf-danger)]/90',
+    errorHover: 'hover:bg-[var(--tf-danger-hover)]',
+    errorLight: 'bg-[var(--tf-danger-light)]',
+    info: 'bg-[var(--tf-info)]',
+    infoHover: 'hover:bg-[var(--tf-info-hover)]',
+    infoLight: 'bg-[var(--tf-info-light)]',
   },
 } as const
 
@@ -117,42 +125,42 @@ export const backgroundElements = {
 
 export const components = {
   button: {
-    primary: `${colors.brand.primary} ${colors.brand.primaryHover} ${glassmorphism.blur.sm} text-[var(--tf-primary-text)] border ${colors.brand.primaryBorder} shadow-lg rounded-lg ${animations.smooth}`,
-    secondary: `${colors.brand.secondary} ${colors.brand.secondaryHover} ${glassmorphism.blur.sm} text-[var(--tf-text-primary)] border ${colors.brand.secondaryBorder} shadow-lg rounded-lg ${animations.smooth}`,
-    ghost: `${glassmorphism.background.subtle} ${glassmorphism.border.default} ${colors.text.primary} ${glassmorphism.interactive.hover} ${animations.smooth} rounded-lg`,
-    outline: `${glassmorphism.background.subtle} border border-[var(--tf-border)] ${glassmorphism.blur.sm} text-[var(--tf-text-primary)] hover:bg-[var(--tf-nav-hover)] ${animations.smooth} rounded-lg`,
-    success: `${colors.status.success} ${colors.status.successHover} ${glassmorphism.blur.sm} text-[var(--tf-primary-text)] shadow-lg rounded-lg ${animations.smooth}`,
-    warning: `${colors.status.warning} ${colors.status.warningHover} ${glassmorphism.blur.sm} text-[var(--tf-primary-text)] shadow-lg rounded-lg ${animations.smooth}`,
-    error: `${colors.status.error} ${colors.status.errorHover} ${glassmorphism.blur.sm} text-[var(--tf-text-primary)] shadow-lg rounded-lg ${animations.smooth}`,
+    primary: `${colors.brand.primary} ${colors.brand.primaryHover} ${colors.brand.primaryActive} text-[var(--tf-primary-text)] border ${colors.brand.primaryBorder} shadow-md rounded-lg ${animations.smooth} transition-colors duration-200`,
+    secondary: `${colors.brand.secondary} ${colors.brand.secondaryHover} text-[var(--tf-text-primary)] border ${colors.brand.secondaryBorder} shadow-sm rounded-lg ${animations.smooth} transition-colors duration-200`,
+    ghost: `bg-transparent text-[var(--tf-text-primary)] border border-transparent hover:bg-[var(--tf-surface-alt)] ${animations.smooth} rounded-lg transition-colors duration-200`,
+    outline: `bg-transparent border-2 border-[var(--tf-primary)] text-[var(--tf-primary)] hover:bg-[var(--tf-primary-light)] ${animations.smooth} rounded-lg transition-colors duration-200`,
+    success: `${colors.status.success} ${colors.status.successHover} text-white shadow-md rounded-lg ${animations.smooth} transition-colors duration-200`,
+    warning: `${colors.status.warning} ${colors.status.warningHover} text-white shadow-md rounded-lg ${animations.smooth} transition-colors duration-200`,
+    error: `${colors.status.error} ${colors.status.errorHover} text-white shadow-md rounded-lg ${animations.smooth} transition-colors duration-200`,
   },
   input: {
     default:
-      'bg-[var(--tf-input-fill)] border border-[var(--tf-border)] backdrop-blur-sm text-[var(--tf-text-primary)] placeholder:text-[var(--tf-text-secondary)] rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/45 focus:border-primary/70',
+      'bg-[var(--tf-input-fill)] border-2 border-[var(--tf-border)] text-[var(--tf-text-primary)] placeholder:text-[var(--tf-text-muted)] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--tf-primary)] focus:border-[var(--tf-primary)] transition-colors duration-200',
     subtle:
-      'bg-[var(--tf-input-fill)] border border-[var(--tf-border)] backdrop-blur-sm text-[var(--tf-text-primary)] placeholder:text-[var(--tf-text-secondary)] rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/45 focus:border-primary/70',
+      'bg-[var(--tf-surface)] border-2 border-[var(--tf-border)] text-[var(--tf-text-primary)] placeholder:text-[var(--tf-text-muted)] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--tf-primary)] focus:border-[var(--tf-primary)] transition-colors duration-200',
   },
   card: {
-    default: `${glassmorphism.card.default} p-6`,
-    subtle: `${glassmorphism.card.subtle} p-4`,
-    strong: `${glassmorphism.card.strong} p-6`,
-    interactive: `${glassmorphism.card.default} p-6 ${glassmorphism.interactive.hover} ${animations.smooth} cursor-pointer`,
+    default: `bg-white border border-[var(--tf-border)] shadow-sm rounded-lg p-6 transition-all duration-200`,
+    subtle: `bg-[var(--tf-surface)] border border-[var(--tf-border-subtle)] shadow-xs rounded-lg p-4 transition-all duration-200`,
+    strong: `bg-white border border-[var(--tf-border-strong)] shadow-md rounded-lg p-6 transition-all duration-200`,
+    interactive: `bg-white border border-[var(--tf-border)] shadow-sm rounded-lg p-6 hover:shadow-md hover:border-[var(--tf-primary)] ${animations.smooth} cursor-pointer transition-all duration-200`,
   },
   container: {
-    page: `${colors.gradient.primary} min-h-screen`,
-    section: `${glassmorphism.card.default} p-6`,
-    form: `${glassmorphism.card.default} p-8`,
+    page: `bg-[var(--tf-page-bg)] min-h-screen`,
+    section: `bg-white border border-[var(--tf-border)] shadow-sm rounded-lg p-6`,
+    form: `bg-white border border-[var(--tf-border)] shadow-sm rounded-lg p-8`,
   },
   nav: {
-    item: `bg-[var(--tf-surface)] border border-[var(--tf-border)] ${glassmorphism.blur.sm} text-[var(--tf-text-secondary)] hover:bg-[var(--tf-nav-hover)] hover:text-[var(--tf-text-primary)] ${animations.smooth} rounded-lg px-3 py-2`,
-    itemActive: `bg-primary/18 border border-primary/42 ${glassmorphism.blur.sm} text-[var(--tf-text-primary)] ${animations.smooth} rounded-lg px-3 py-2`,
+    item: `bg-transparent border border-transparent text-[var(--tf-text-secondary)] hover:bg-[var(--tf-nav-hover)] hover:text-[var(--tf-text-primary)] ${animations.smooth} rounded-lg px-3 py-2 transition-colors duration-200`,
+    itemActive: `bg-[var(--tf-primary-light)] border border-[var(--tf-primary)] text-[var(--tf-primary)] ${animations.smooth} rounded-lg px-3 py-2 font-medium`,
   },
   header: {
     default:
-      'fixed top-0 left-0 right-0 z-40 h-14 bg-[var(--tf-header-bg)] border-b border-[var(--tf-divider)] backdrop-blur-md shadow-[0_10px_24px_rgba(0,0,0,0.22)]',
+      'fixed top-0 left-0 right-0 z-40 h-14 bg-[var(--tf-header-bg)] border-b border-[var(--tf-border)] shadow-sm transition-all duration-200',
   },
   sidebar: {
     default:
-      'flex flex-col bg-[var(--tf-sidebar-bg)] border-r border-[var(--tf-divider)] backdrop-blur-md shadow-[0_12px_28px_rgba(0,0,0,0.24)] transition-all duration-300 h-full',
+      'flex flex-col bg-[var(--tf-sidebar-bg)] border-r border-[var(--tf-border)] shadow-sm transition-all duration-300 h-full',
   },
 } as const
 
