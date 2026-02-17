@@ -43,7 +43,14 @@ try {
   throw new Error(`Invalid server environment variables:\n${details}`)
 }
 
+// Helper to safely parse Firebase private key - handle both \\n and \n formats
+const parseFirebaseKey = (key: string): string => {
+  if (!key) return ''
+  // Replace escaped newlines and escaped quotes
+  return key.replace(/\\n/g, '\n').replace(/\\"/g, '"')
+}
+
 export const serverEnv = {
   ...server,
-  FIREBASE_PRIVATE_KEY: server.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  FIREBASE_PRIVATE_KEY: parseFirebaseKey(server.FIREBASE_PRIVATE_KEY),
 }
