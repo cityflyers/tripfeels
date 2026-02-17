@@ -1,0 +1,643 @@
+'use client'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ChevronDown, ChevronUp, Plus, X } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { SimpleDropdown } from '@/components/ui/simple-dropdown'
+import { travellerFormSchema, type TravellerFormData } from '@/lib/utils/validation'
+
+import { type Traveller } from './TravellersList'
+
+// TravellerFormData is now imported from validation.ts
+
+interface TravellerFormProps {
+  onSubmit: (data: TravellerFormData) => void
+  onCancel: () => void
+  initialData?: Traveller | null
+  isEditing?: boolean
+}
+
+const PTC_OPTIONS = [
+  { value: 'Adult', label: 'Adult' },
+  { value: 'Child', label: 'Child' },
+  { value: 'Infant', label: 'Infant' },
+]
+
+const GENDER_OPTIONS = [
+  { value: 'Male', label: 'Male' },
+  { value: 'Female', label: 'Female' },
+  { value: 'Other', label: 'Other' },
+]
+
+const NATIONALITY_OPTIONS = [
+  { value: 'BD', label: 'Bangladesh' },
+  { value: 'US', label: 'United States' },
+  { value: 'CA', label: 'Canada' },
+  { value: 'UK', label: 'United Kingdom' },
+  { value: 'AU', label: 'Australia' },
+  { value: 'DE', label: 'Germany' },
+  { value: 'FR', label: 'France' },
+  { value: 'JP', label: 'Japan' },
+  { value: 'IN', label: 'India' },
+  { value: 'CN', label: 'China' },
+]
+
+const DOCUMENT_TYPE_OPTIONS = [
+  { value: 'Passport', label: 'Passport' },
+  { value: 'National ID', label: 'National ID' },
+  { value: 'Driver License', label: 'Driver License' },
+  { value: 'Other', label: 'Other' },
+]
+
+const COUNTRY_DIALING_CODES = [
+  { value: '880', label: '+880 (Bangladesh)' },
+  { value: '1', label: '+1 (US/Canada)' },
+  { value: '44', label: '+44 (UK)' },
+  { value: '61', label: '+61 (Australia)' },
+  { value: '49', label: '+49 (Germany)' },
+  { value: '33', label: '+33 (France)' },
+  { value: '81', label: '+81 (Japan)' },
+  { value: '91', label: '+91 (India)' },
+  { value: '86', label: '+86 (China)' },
+]
+
+const SSR_CODE_OPTIONS = [
+  { value: 'WCHR', label: 'WCHR - Wheelchair' },
+  { value: 'VVIP', label: 'VVIP - Very Very Important Person' },
+  { value: 'MAAS', label: 'MAAS - Meet and Assist' },
+  { value: 'FQTV', label: 'FQTV - Frequent Traveler' },
+  { value: 'BLND', label: 'BLND - Blind Passenger' },
+  { value: 'DEAF', label: 'DEAF - Deaf Passenger' },
+  { value: 'DPNA', label: 'DPNA - Disabled Passenger' },
+  { value: 'MEDA', label: 'MEDA - Medical Assistance' },
+]
+
+const AIRLINE_CODES = [
+  { value: 'BG', label: 'BG - Biman Bangladesh' },
+  { value: 'AA', label: 'AA - American Airlines' },
+  { value: 'DL', label: 'DL - Delta Air Lines' },
+  { value: 'UA', label: 'UA - United Airlines' },
+  { value: 'BA', label: 'BA - British Airways' },
+  { value: 'AC', label: 'AC - Air Canada' },
+  { value: 'VA', label: 'VA - Virgin Australia' },
+  { value: 'LH', label: 'LH - Lufthansa' },
+  { value: 'AF', label: 'AF - Air France' },
+  { value: 'JL', label: 'JL - Japan Airlines' },
+]
+
+export function TravellerForm({
+  onSubmit,
+  onCancel,
+  initialData,
+  isEditing = false,
+}: TravellerFormProps) {
+  const [newSSRCode, setNewSSRCode] = useState('')
+  const [newSSRRemark, setNewSSRRemark] = useState('')
+  const [showSSRSection, setShowSSRSection] = useState((initialData?.ssrCodes?.length ?? 0) > 0)
+  const [showLoyaltySection, setShowLoyaltySection] = useState(
+    Boolean(initialData?.loyaltyAirlineCode || initialData?.loyaltyAccountNumber),
+  )
+
+  const form = useForm<TravellerFormData>({
+    resolver: zodResolver(travellerFormSchema),
+    defaultValues: {
+      ptc:
+        initialData?.ptc && ['Adult', 'Child', 'Infant'].includes(initialData.ptc)
+          ? (initialData.ptc as 'Adult' | 'Child' | 'Infant')
+          : 'Adult',
+      givenName: initialData?.givenName || '',
+      surname: initialData?.surname || '',
+      gender:
+        initialData?.gender && ['Male', 'Female', 'Other'].includes(initialData.gender)
+          ? (initialData.gender as 'Male' | 'Female' | 'Other')
+          : 'Male',
+      birthdate: initialData?.birthdate || '',
+      nationality: initialData?.nationality || 'BD',
+      phoneNumber: initialData?.phoneNumber || '',
+      countryDialingCode: initialData?.countryDialingCode || '880',
+      emailAddress: initialData?.emailAddress || '',
+      documentType:
+        initialData?.documentType &&
+        ['Passport', 'National ID', 'Driver License', 'Other'].includes(initialData.documentType)
+          ? (initialData.documentType as 'Passport' | 'National ID' | 'Driver License' | 'Other')
+          : 'Passport',
+      documentId: initialData?.documentId || '',
+      documentExpiryDate: initialData?.documentExpiryDate || '',
+      ssrCodes: initialData?.ssrCodes
+        ? initialData.ssrCodes.map((code) => ({
+            code,
+            remark: initialData.ssrRemarks?.[code] || '',
+          }))
+        : [],
+      loyaltyAirlineCode: initialData?.loyaltyAirlineCode || '',
+      loyaltyAccountNumber: initialData?.loyaltyAccountNumber || '',
+    },
+  })
+
+  const handleAddSSRCode = () => {
+    const currentSSRCodes = form.getValues('ssrCodes') || []
+    if (newSSRCode && !currentSSRCodes.find((ssr) => ssr.code === newSSRCode)) {
+      form.setValue('ssrCodes', [...currentSSRCodes, { code: newSSRCode, remark: newSSRRemark }])
+      setNewSSRCode('')
+      setNewSSRRemark('')
+    }
+  }
+
+  const handleRemoveSSRCode = (code: string) => {
+    const currentSSRCodes = form.getValues('ssrCodes') || []
+    form.setValue(
+      'ssrCodes',
+      currentSSRCodes.filter((ssr) => ssr.code !== code),
+    )
+  }
+
+  const handleSubmit = (data: TravellerFormData) => {
+    onSubmit(data)
+  }
+
+  const currentSsrCodes = form.watch('ssrCodes') || []
+  const loyaltyAirlineCode = form.watch('loyaltyAirlineCode')
+  const loyaltyAccountNumber = form.watch('loyaltyAccountNumber')
+
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={(e) => {
+          void form.handleSubmit(handleSubmit)(e)
+        }}
+        className="space-y-4"
+      >
+        {/* Personal Information */}
+        <Card className="bg-[var(--tf-component-bg)] backdrop-blur-sm border border-[var(--tf-border)] shadow-sm">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base text-[var(--tf-text-primary)]">
+              Personal Information
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+              <FormField
+                control={form.control}
+                name="ptc"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[var(--tf-text-primary)]">PTC</FormLabel>
+                    <FormControl>
+                      <SimpleDropdown
+                        id="ptc"
+                        value={field.value || 'Adult'}
+                        options={PTC_OPTIONS}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="givenName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[var(--tf-text-primary)]">Given Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="text"
+                        className="bg-[var(--tf-surface)] backdrop-blur-sm border border-[var(--tf-border)] text-[var(--tf-text-primary)]"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="surname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[var(--tf-text-primary)]">Surname</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="text"
+                        className="bg-[var(--tf-surface)] backdrop-blur-sm border border-[var(--tf-border)] text-[var(--tf-text-primary)]"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="gender"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[var(--tf-text-primary)]">Gender</FormLabel>
+                    <FormControl>
+                      <SimpleDropdown
+                        id="gender"
+                        value={field.value || 'Male'}
+                        options={GENDER_OPTIONS}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="birthdate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[var(--tf-text-primary)]">Birthdate</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="date"
+                        className="bg-[var(--tf-surface)] backdrop-blur-sm border border-[var(--tf-border)] text-[var(--tf-text-primary)]"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="nationality"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[var(--tf-text-primary)]">Nationality</FormLabel>
+                    <FormControl>
+                      <SimpleDropdown
+                        id="nationality"
+                        value={field.value || 'BD'}
+                        options={NATIONALITY_OPTIONS}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Contact Information */}
+        <Card className="bg-[var(--tf-component-bg)] backdrop-blur-sm border border-[var(--tf-border)] shadow-sm">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base text-[var(--tf-text-primary)]">
+              Contact Information
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <FormField
+                control={form.control}
+                name="countryDialingCode"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[var(--tf-text-primary)]">
+                      Country Dialing Code
+                    </FormLabel>
+                    <FormControl>
+                      <SimpleDropdown
+                        id="countryDialingCode"
+                        value={field.value || '880'}
+                        options={COUNTRY_DIALING_CODES}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phoneNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[var(--tf-text-primary)]">Phone Number</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="tel"
+                        className="bg-[var(--tf-surface)] backdrop-blur-sm border border-[var(--tf-border)] text-[var(--tf-text-primary)]"
+                        placeholder="1234567890"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="emailAddress"
+                render={({ field }) => (
+                  <FormItem className="sm:col-span-2">
+                    <FormLabel className="text-[var(--tf-text-primary)]">
+                      Email Address
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="email"
+                        className="bg-[var(--tf-surface)] backdrop-blur-sm border border-[var(--tf-border)] text-[var(--tf-text-primary)]"
+                        placeholder="example@email.com"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Identity Document */}
+        <Card className="bg-[var(--tf-component-bg)] backdrop-blur-sm border border-[var(--tf-border)] shadow-sm">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base text-[var(--tf-text-primary)]">
+              Identity Document
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+              <FormField
+                control={form.control}
+                name="documentType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[var(--tf-text-primary)]">Type</FormLabel>
+                    <FormControl>
+                      <SimpleDropdown
+                        id="documentType"
+                        value={field.value || 'Passport'}
+                        options={DOCUMENT_TYPE_OPTIONS}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="documentId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[var(--tf-text-primary)]">ID</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="text"
+                        className="bg-[var(--tf-surface)] backdrop-blur-sm border border-[var(--tf-border)] text-[var(--tf-text-primary)]"
+                        placeholder="BH345678"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="documentExpiryDate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[var(--tf-text-primary)]">Expiry Date</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="date"
+                        className="bg-[var(--tf-surface)] backdrop-blur-sm border border-[var(--tf-border)] text-[var(--tf-text-primary)]"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Special Service Requests (SSR) */}
+        <Card className="bg-[var(--tf-component-bg)] backdrop-blur-sm border border-[var(--tf-border)] shadow-sm">
+          <CardHeader className="pb-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <CardTitle className="text-base text-[var(--tf-text-primary)]">
+                  Special Service Requests (SSR)
+                </CardTitle>
+                <p className="text-xs text-[var(--tf-text-secondary)] mt-1">
+                  Optional. Add only when airline special services are required.
+                </p>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setShowSSRSection((prev) => !prev)}
+                className="border-primary/50 text-primary hover:bg-primary/10"
+              >
+                {showSSRSection ? (
+                  <>
+                    <ChevronUp className="h-3.5 w-3.5 mr-1" />
+                    Hide
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="h-3.5 w-3.5 mr-1" />
+                    Add SSR
+                  </>
+                )}
+              </Button>
+            </div>
+          </CardHeader>
+          {showSSRSection && (
+            <CardContent className="space-y-3 pt-0">
+            {/* Existing SSR Codes */}
+            {currentSsrCodes.length > 0 && (
+              <div className="space-y-2">
+                <Label className="text-[var(--tf-text-primary)]">Current SSR Codes</Label>
+                <div className="flex flex-wrap gap-2">
+                  {currentSsrCodes.map((ssr) => (
+                    <Badge key={ssr.code} variant="outline" className="flex items-center gap-1">
+                      {ssr.code}
+                      {ssr.remark && `: ${ssr.remark}`}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveSSRCode(ssr.code)}
+                        className="ml-1 text-[var(--tf-danger)] hover:opacity-80"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Add New SSR Code */}
+            <div className="space-y-2">
+              <Label className="text-[var(--tf-text-primary)]">Add SSR Code</Label>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="space-y-2">
+                  <SimpleDropdown
+                    id="newSSRCode"
+                    value={newSSRCode}
+                    options={SSR_CODE_OPTIONS}
+                    onChange={(value) => setNewSSRCode(value)}
+                    placeholder="Select SSR Code"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Input
+                    type="text"
+                    value={newSSRRemark}
+                    onChange={(e) => setNewSSRRemark(e.target.value)}
+                    className="bg-[var(--tf-surface)] backdrop-blur-sm border border-[var(--tf-border)] text-[var(--tf-text-primary)]"
+                    placeholder="Remark (optional)"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Button
+                    type="button"
+                    onClick={handleAddSSRCode}
+                    disabled={!newSSRCode}
+                    className="w-full bg-primary hover:bg-primary/90 text-[var(--tf-primary-text)]"
+                  >
+                    <Plus className="h-4 w-4 mr-1" />
+                    Add SSR
+                  </Button>
+                </div>
+              </div>
+            </div>
+            </CardContent>
+          )}
+          {!showSSRSection && currentSsrCodes.length > 0 && (
+            <CardContent className="pt-0">
+              <p className="text-xs text-[var(--tf-text-secondary)]">
+                {currentSsrCodes.length} SSR code{currentSsrCodes.length > 1 ? 's' : ''} added.
+              </p>
+            </CardContent>
+          )}
+        </Card>
+
+        {/* Loyalty Program */}
+        <Card className="bg-[var(--tf-component-bg)] backdrop-blur-sm border border-[var(--tf-border)] shadow-sm">
+          <CardHeader className="pb-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <CardTitle className="text-base text-[var(--tf-text-primary)]">Loyalty Program</CardTitle>
+                <p className="text-xs text-[var(--tf-text-secondary)] mt-1">
+                  Optional. Add frequent flyer details if available.
+                </p>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setShowLoyaltySection((prev) => !prev)}
+                className="border-primary/50 text-primary hover:bg-primary/10"
+              >
+                {showLoyaltySection ? (
+                  <>
+                    <ChevronUp className="h-3.5 w-3.5 mr-1" />
+                    Hide
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="h-3.5 w-3.5 mr-1" />
+                    Add Loyalty
+                  </>
+                )}
+              </Button>
+            </div>
+          </CardHeader>
+          {showLoyaltySection && (
+            <CardContent className="space-y-2 pt-0">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <FormField
+                  control={form.control}
+                  name="loyaltyAirlineCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[var(--tf-text-primary)]">Airline Code</FormLabel>
+                      <FormControl>
+                        <SimpleDropdown
+                          id="loyaltyAirlineCode"
+                          value={field.value || ''}
+                          options={AIRLINE_CODES}
+                          onChange={field.onChange}
+                          placeholder="Select Airline"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="loyaltyAccountNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[var(--tf-text-primary)]">
+                        Loyalty Account Number
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="text"
+                          className="bg-[var(--tf-surface)] backdrop-blur-sm border border-[var(--tf-border)] text-[var(--tf-text-primary)]"
+                          placeholder="1234567"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </CardContent>
+          )}
+          {!showLoyaltySection && (loyaltyAirlineCode || loyaltyAccountNumber) && (
+            <CardContent className="pt-0">
+              <p className="text-xs text-[var(--tf-text-secondary)]">
+                Loyalty details saved for {loyaltyAirlineCode || 'selected airline'}.
+              </p>
+            </CardContent>
+          )}
+        </Card>
+
+        {/* Form Actions */}
+        <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-4">
+          <Button type="button" variant="outline" onClick={onCancel} className="w-full sm:w-auto">
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-[var(--tf-primary-text)]"
+          >
+            {isEditing ? 'Update Traveller' : 'Add Traveller'}
+          </Button>
+        </div>
+      </form>
+    </Form>
+  )
+}
