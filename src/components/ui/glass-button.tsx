@@ -17,7 +17,7 @@ const glassButtonVariants = cva(
         ghost: components.button.ghost,
         link: 'text-primary underline-offset-4 hover:underline',
         glass:
-          'backdrop-blur-sm bg-background/60 border border-border/20 hover:bg-background/80 text-foreground',
+          'backdrop-blur-sm bg-[var(--tf-component-bg)] border border-[var(--tf-border)] hover:shadow-md text-foreground',
       },
       size: {
         default: 'h-10 px-4 py-2',

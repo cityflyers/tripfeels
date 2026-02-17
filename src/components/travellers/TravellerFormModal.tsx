@@ -57,7 +57,7 @@ export function TravellerFormModal({
           <div className="sticky top-0 z-10 border-b border-[var(--tf-border)] bg-[var(--tf-component-bg)] backdrop-blur-sm px-4 md:px-6 py-3">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary/15 text-primary">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--tf-primary-light)] text-[var(--tf-primary)]">
                   {isEditing ? <Pencil className="h-4 w-4" /> : <UserRoundPlus className="h-4 w-4" />}
                 </span>
                 <div>

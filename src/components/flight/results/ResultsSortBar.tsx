@@ -75,7 +75,7 @@ export function ResultsSortBar({ value, onChange }: ResultsSortBarProps) {
     'text-[var(--tf-text-secondary)] hover:bg-[var(--tf-nav-hover)]/45'
 
   const activeItemClass =
-    'bg-primary/10 text-primary'
+    'bg-[var(--tf-primary-light)] text-[var(--tf-primary)]'
 
   const choose = (next: ResultsSortKey | 'none') => {
     onChange(next === 'none' ? 'none' : next)

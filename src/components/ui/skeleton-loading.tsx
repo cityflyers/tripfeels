@@ -5,7 +5,7 @@ import { type HTMLAttributes } from 'react'
 // Basic skeleton component
 export function Skeleton({ className = '', ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={`animate-pulse bg-gray-300 dark:bg-gray-600 rounded ${className}`} {...props} />
+    <div className={`animate-pulse bg-[var(--tf-surface-alt)] rounded ${className}`} {...props} />
   )
 }
 

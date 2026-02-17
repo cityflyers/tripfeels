@@ -36,7 +36,7 @@ export function AuthSlideshow() {
 
   if (slides.length === 0) {
     return (
-      <div className="relative hidden lg:block lg:w-1/2 overflow-hidden bg-gradient-to-br from-slate-100 via-blue-100 to-indigo-200 dark:from-slate-800 dark:via-slate-700 dark:to-indigo-800" />
+      <div className="relative hidden lg:block lg:w-1/2 overflow-hidden bg-gradient-to-br from-[var(--tf-primary-light)] via-[var(--tf-primary-100)] to-[var(--tf-primary-200)]" />
     )
   }
 
@@ -66,10 +66,10 @@ export function AuthSlideshow() {
             <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/60 via-slate-700/30 to-transparent" />
             {slide.alt && (
               <div className="absolute bottom-8 left-8 right-8">
-                <blockquote className="max-w-md text-white text-lg leading-relaxed backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/20">
+                <blockquote className="max-w-md text-white text-lg leading-relaxed backdrop-blur-sm bg-black/30 rounded-lg p-4 border border-white/20">
                   &ldquo;{slide.alt}&rdquo;
                 </blockquote>
-                <div className="mt-2 h-1 w-24 bg-white/70 rounded-full" />
+                <div className="mt-2 h-1 w-24 bg-[var(--tf-primary-400)] rounded-full" />
               </div>
             )}
           </div>

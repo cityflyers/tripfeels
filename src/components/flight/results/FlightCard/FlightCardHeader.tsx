@@ -94,8 +94,8 @@ export function FlightCardHeader({ offer, showPrice = false, showRadio = false, 
     : "text-[8px] sm:text-[10px] text-[var(--tf-text-muted)] leading-snug whitespace-normal break-words"
 
   const aircraftTextClass = showPrice
-    ? "mt-0.5 flex items-center gap-0.5 lg:gap-1 text-[9px] lg:text-[10px] 3xl:text-xs text-gray-600 dark:text-gray-300 justify-end"
-    : "mt-0.5 flex items-center gap-1 text-[10px] sm:text-xs text-gray-600 dark:text-gray-300 justify-end"
+    ? "mt-0.5 flex items-center gap-0.5 lg:gap-1 text-[9px] lg:text-[10px] 3xl:text-xs text-[var(--tf-text-secondary)] justify-end"
+    : "mt-0.5 flex items-center gap-1 text-[10px] sm:text-xs text-[var(--tf-text-secondary)] justify-end"
 
   const planeIconClass = showPrice
     ? "w-2.5 h-2.5 lg:w-3 lg:h-3 3xl:w-3.5 3xl:h-3.5 flex-shrink-0"

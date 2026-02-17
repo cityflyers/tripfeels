@@ -13,25 +13,25 @@ interface StatsCardProps {
 
 export function StatsCard({ title, value, description, icon: Icon, trend }: StatsCardProps) {
   return (
-    <div className="rounded-xl border-0 ring-0 outline outline-1 outline-[hsl(var(--primary))] bg-[hsla(var(--primary)/0.16)] p-6 transition-all duration-300 text-foreground dark:text-white shadow-none">
+    <div className="rounded-xl border outline outline-1 outline-[var(--tf-primary)] bg-[var(--tf-primary-light)] p-6 transition-all duration-300 text-[var(--tf-text-primary)] shadow-sm hover:shadow-md">
       <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <h3 className="text-sm font-semibold text-foreground dark:text-white">{title}</h3>
-        <Icon className="h-4 w-4 text-primary" />
+        <h3 className="text-sm font-semibold text-[var(--tf-text-primary)]">{title}</h3>
+        <Icon className="h-4 w-4 text-[var(--tf-primary)]" />
       </div>
       <div>
-        <div className="text-2xl font-bold text-foreground dark:text-white">{value}</div>
+        <div className="text-2xl font-bold text-[var(--tf-text-primary)]">{value}</div>
         {description && (
-          <p className="text-xs text-muted-foreground dark:text-white/80">{description}</p>
+          <p className="text-xs text-[var(--tf-text-secondary)]">{description}</p>
         )}
         {trend && (
           <div className="flex items-center pt-1">
             <span
-              className={`text-xs ${trend.isPositive ? 'text-green-600 dark:text-emerald-400' : 'text-red-600 dark:text-rose-400'}`}
+              className={`text-xs ${trend.isPositive ? 'text-[var(--tf-success)]' : 'text-[var(--tf-danger)]'}`}
             >
               {trend.isPositive ? '+' : ''}
               {trend.value}%
             </span>
-            <span className="text-xs text-muted-foreground dark:text-white/70 ml-1">
+            <span className="text-xs text-[var(--tf-text-muted)] ml-1">
               from last month
             </span>
           </div>
