@@ -33,34 +33,34 @@ export type ThemeTokens = Record<ThemeTokenKey, string>
 export const DEFAULT_THEME_MODE: ThemeMode = 'default'
 
 export const DEFAULT_THEME_TOKENS: ThemeTokens = {
-  // Background Colors - White Base
-  pageBg: '#FFFFFF',
-  appBg: '#FFFFFF',
-  componentBg: '#FFFFFF',
-  surface: '#F9FAFB',
-  surfaceAlt: '#F3F4F6',
-  inputFill: '#FFFFFF',
+  // Background Colors - Dark Base
+  pageBg: '#0f172a',
+  appBg: '#0f172a',
+  componentBg: '#1e293b',
+  surface: '#1e293b',
+  surfaceAlt: '#334155',
+  inputFill: '#ffffff',
   
-  // Text Colors - Dark for contrast
-  textPrimary: '#1F2937',
-  textSecondary: '#6B7280',
-  textMuted: '#9CA3AF',
+  // Text Colors - Light for Dark Mode
+  textPrimary: '#f1f5f9',
+  textSecondary: '#cbd5e1',
+  textMuted: '#94a3b8',
   
-  // Border and Divider - Light gray
-  border: '#E5E7EB',
-  divider: '#E5E7EB',
+  // Border and Divider - Visible on dark
+  border: '#475569',
+  divider: '#475569',
   
-  // Primary Green Brand Colors
-  primary: '#047857',
-  primaryHover: '#065F46',
-  primaryText: '#FFFFFF',
-  ring: '#047857',
+  // Primary Green Brand Colors - Bright
+  primary: '#10b981',
+  primaryHover: '#059669',
+  primaryText: '#ffffff',
+  ring: '#10b981',
   
-  // Semantic Colors
-  success: '#10B981',
-  warning: '#F59E0B',
-  danger: '#EF4444',
-  info: '#3B82F6',
+  // Semantic Colors - Bright & Vibrant
+  success: '#10b981',
+  warning: '#fbbf24',
+  danger: '#ef4444',
+  info: '#60a5fa',
   
   // Component Backgrounds
   headerBg: '#FFFFFF',

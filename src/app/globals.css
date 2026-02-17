@@ -87,69 +87,69 @@
     --border: var(--ui-border);
     --input: var(--ui-input);
     --ring: var(--theme-ring, 222.2 84% 4.9%);
-    /* Tripfeels Green Color System - WCAG AA/AAA Compliant */
-    /* Primary Green Base (Emerald) - #047857 - WCAG AAA for text */
-    --tf-primary: #047857;
-    --tf-primary-hover: #065f46;
-    --tf-primary-active: #034e3f;
-    --tf-primary-focus: #10b981;
-    --tf-primary-disabled: #a7f3d0;
-    --tf-primary-light: #d1fae5;
-    --tf-primary-lighter: #ecfdf5;
-    --tf-primary-dark: #064e3b;
+    /* Tripfeels Dark Mode with Bright Accents - Modern Design */
+    /* Primary Green - Bright & Vibrant */
+    --tf-primary: #10b981;
+    --tf-primary-hover: #059669;
+    --tf-primary-active: #047857;
+    --tf-primary-focus: #6ee7b7;
+    --tf-primary-disabled: #374151;
+    --tf-primary-light: #064e3b;
+    --tf-primary-lighter: #1f3a3a;
+    --tf-primary-dark: #047857;
     --tf-primary-text: #ffffff;
     
-    /* Semantic Colors */
+    /* Semantic Colors - Bright & Vibrant */
     --tf-success: #10b981;
     --tf-success-hover: #059669;
-    --tf-success-light: #d1fae5;
+    --tf-success-light: #064e3b;
     --tf-success-dark: #047857;
     
-    --tf-warning: #f59e0b;
-    --tf-warning-hover: #d97706;
-    --tf-warning-light: #fef3c7;
-    --tf-warning-dark: #b45309;
+    --tf-warning: #fbbf24;
+    --tf-warning-hover: #f59e0b;
+    --tf-warning-light: #78350f;
+    --tf-warning-dark: #d97706;
     
     --tf-danger: #ef4444;
     --tf-danger-hover: #dc2626;
-    --tf-danger-light: #fee2e2;
-    --tf-danger-dark: #991b1b;
+    --tf-danger-light: #7f1d1d;
+    --tf-danger-dark: #b91c1c;
     
-    --tf-info: #3b82f6;
-    --tf-info-hover: #2563eb;
-    --tf-info-light: #dbeafe;
+    --tf-info: #60a5fa;
+    --tf-info-hover: #3b82f6;
+    --tf-info-light: #1e3a8a;
     --tf-info-dark: #1e40af;
     
-    /* Neutral/Background Colors - White Base */
-    --tf-bg-solid: #ffffff;
-    --tf-bg-contrast: #1f2937;
-    --tf-page-bg: #ffffff;
-    --tf-app-bg: #ffffff;
-    --tf-component-bg: #ffffff;
+    /* Neutral/Background Colors - Dark Base */
+    --tf-bg-solid: #111827;
+    --tf-bg-contrast: #f3f4f6;
+    --tf-page-bg: #0f172a;
+    --tf-app-bg: #0f172a;
+    --tf-component-bg: #1e293b;
     
     /* Surface Variations */
-    --tf-surface: #f9fafb;
-    --tf-surface-alt: #f3f4f6;
-    --tf-surface-subtle: #e5e7eb;
+    --tf-surface: #1e293b;
+    --tf-surface-alt: #334155;
+    --tf-surface-subtle: #475569;
     --tf-input-fill: #ffffff;
     
-    /* Text Colors */
-    --tf-text-primary: #1f2937;
-    --tf-text-secondary: #6b7280;
-    --tf-text-muted: #9ca3af;
+    /* Text Colors - Light for Dark Mode */
+    --tf-text-primary: #f1f5f9;
+    --tf-text-secondary: #cbd5e1;
+    --tf-text-muted: #94a3b8;
     
-    /* Borders and Dividers */
-    --tf-border: #e5e7eb;
-    --tf-border-subtle: #f0f0f0;
-    --tf-border-strong: #d1d5db;
-    --tf-divider: #e5e7eb;
+    /* Borders and Dividers - More Visible */
+    --tf-border: #475569;
+    --tf-border-subtle: #334155;
+    --tf-border-strong: #64748b;
+    --tf-divider: #475569;
     
     /* UI Components */
-    --tf-ring: #047857;
-    --tf-header-bg: #ffffff;
-    --tf-sidebar-bg: #ffffff;
-    --tf-footer-bg: #f9fafb;
-    --tf-nav-hover: #ecfdf5;
+    --tf-ring: #10b981;
+    --tf-header-bg: #1e293b;
+    --tf-sidebar-bg: #0f172a;
+    --tf-footer-bg: #1e293b;
+    --tf-nav-hover: #064e3b;
   }
 
   html {

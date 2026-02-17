@@ -44,66 +44,66 @@ export function Footer({ className }: FooterProps) {
 
   return (
     <footer className={cn('', className)}>
-      <div className="w-full border-t border-[var(--tf-divider)] bg-[var(--tf-footer-bg)] backdrop-blur-md shadow-lg">
-        <div className="px-4 py-2.5 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center gap-1 sm:grid sm:grid-cols-3 sm:items-center">
+      <div className="w-full border-t border-[var(--tf-divider)] bg-[var(--tf-footer-bg)] shadow-xl">
+        <div className="px-4 py-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center gap-3 sm:grid sm:grid-cols-3 sm:items-center sm:gap-4">
             {/* Left: Social icons (desktop/tablet only) */}
-            <div className="hidden sm:flex items-center gap-4 text-[var(--tf-text-secondary)]">
+            <div className="hidden sm:flex items-center gap-5">
               {settings?.social?.facebook && settings.social.facebook !== '' && (
                 <Link
                   href={settings.social.facebook}
                   aria-label="Facebook"
-                  className="hover:text-[var(--tf-text-primary)] transition-colors"
+                  className="text-[var(--tf-text-secondary)] hover:text-[#10b981] transition-colors duration-200"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Facebook className="h-4 w-4" />
+                  <Facebook className="h-5 w-5" />
                 </Link>
               )}
               {settings?.social?.instagram && settings.social.instagram !== '' && (
                 <Link
                   href={settings.social.instagram}
                   aria-label="Instagram"
-                  className="hover:text-[var(--tf-text-primary)] transition-colors"
+                  className="text-[var(--tf-text-secondary)] hover:text-[#f59e0b] transition-colors duration-200"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Instagram className="h-4 w-4" />
+                  <Instagram className="h-5 w-5" />
                 </Link>
               )}
               {settings?.social?.community && settings.social.community !== '' && (
                 <Link
                   href={settings.social.community}
                   aria-label="Community"
-                  className="hover:text-[var(--tf-text-primary)] transition-colors"
+                  className="text-[var(--tf-text-secondary)] hover:text-[#60a5fa] transition-colors duration-200"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Users className="h-4 w-4" />
+                  <Users className="h-5 w-5" />
                 </Link>
               )}
             </div>
 
             {/* Center: Links */}
-            <div className="flex items-center justify-center gap-2 sm:gap-4 text-xs sm:text-sm text-[var(--tf-text-secondary)]">
+            <div className="flex items-center justify-center gap-3 sm:gap-6 text-sm font-medium">
               <Link
                 href="/privacy"
-                className="hover:text-[var(--tf-text-primary)] transition-colors whitespace-nowrap"
+                className="text-[var(--tf-text-secondary)] hover:text-[var(--tf-primary)] transition-colors duration-200 whitespace-nowrap"
               >
                 Privacy Policy
               </Link>
-              <span className="text-[var(--tf-text-muted)]">&middot;</span>
+              <span className="text-[var(--tf-border)]">&middot;</span>
               <Link
                 href="/terms"
-                className="hover:text-[var(--tf-text-primary)] transition-colors whitespace-nowrap"
+                className="text-[var(--tf-text-secondary)] hover:text-[var(--tf-primary)] transition-colors duration-200 whitespace-nowrap"
               >
                 Terms & Conditions
               </Link>
             </div>
 
             {/* Right: Copyright */}
-            <div className="flex items-center justify-center sm:justify-end text-[11px] sm:text-xs text-[var(--tf-text-secondary)] whitespace-nowrap">
-              &copy; {year} tripfeels. All rights reserved.
+            <div className="flex items-center justify-center sm:justify-end text-sm font-medium text-[var(--tf-text-secondary)] whitespace-nowrap">
+              &copy; {year} <span className="ml-1 text-[var(--tf-primary)] font-bold">tripfeels</span>. All rights reserved.
             </div>
           </div>
         </div>

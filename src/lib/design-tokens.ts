@@ -125,13 +125,13 @@ export const backgroundElements = {
 
 export const components = {
   button: {
-    primary: `${colors.brand.primary} ${colors.brand.primaryHover} ${colors.brand.primaryActive} text-[var(--tf-primary-text)] border ${colors.brand.primaryBorder} shadow-md rounded-lg ${animations.smooth} transition-colors duration-200`,
-    secondary: `${colors.brand.secondary} ${colors.brand.secondaryHover} text-[var(--tf-text-primary)] border ${colors.brand.secondaryBorder} shadow-sm rounded-lg ${animations.smooth} transition-colors duration-200`,
-    ghost: `bg-transparent text-[var(--tf-text-primary)] border border-transparent hover:bg-[var(--tf-surface-alt)] ${animations.smooth} rounded-lg transition-colors duration-200`,
+    primary: `bg-[var(--tf-primary)] hover:bg-[var(--tf-primary-hover)] active:bg-[var(--tf-primary-active)] text-white border border-[var(--tf-primary)] shadow-lg rounded-lg ${animations.smooth} transition-colors duration-200`,
+    secondary: `bg-[var(--tf-surface-alt)] hover:bg-[var(--tf-surface)] text-[var(--tf-text-primary)] border border-[var(--tf-border-strong)] shadow-md rounded-lg ${animations.smooth} transition-colors duration-200`,
+    ghost: `bg-transparent text-[var(--tf-text-primary)] border border-transparent hover:bg-[var(--tf-surface)] ${animations.smooth} rounded-lg transition-colors duration-200`,
     outline: `bg-transparent border-2 border-[var(--tf-primary)] text-[var(--tf-primary)] hover:bg-[var(--tf-primary-light)] ${animations.smooth} rounded-lg transition-colors duration-200`,
-    success: `${colors.status.success} ${colors.status.successHover} text-white shadow-md rounded-lg ${animations.smooth} transition-colors duration-200`,
-    warning: `${colors.status.warning} ${colors.status.warningHover} text-white shadow-md rounded-lg ${animations.smooth} transition-colors duration-200`,
-    error: `${colors.status.error} ${colors.status.errorHover} text-white shadow-md rounded-lg ${animations.smooth} transition-colors duration-200`,
+    success: `bg-[var(--tf-success)] hover:bg-[var(--tf-success-hover)] text-white shadow-lg rounded-lg ${animations.smooth} transition-colors duration-200`,
+    warning: `bg-[var(--tf-warning)] hover:bg-[var(--tf-warning-hover)] text-black shadow-lg rounded-lg ${animations.smooth} transition-colors duration-200`,
+    error: `bg-[var(--tf-danger)] hover:bg-[var(--tf-danger-hover)] text-white shadow-lg rounded-lg ${animations.smooth} transition-colors duration-200`,
   },
   input: {
     default:
@@ -140,10 +140,10 @@ export const components = {
       'bg-[var(--tf-surface)] border-2 border-[var(--tf-border)] text-[var(--tf-text-primary)] placeholder:text-[var(--tf-text-muted)] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--tf-primary)] focus:border-[var(--tf-primary)] transition-colors duration-200',
   },
   card: {
-    default: `bg-white border border-[var(--tf-border)] shadow-sm rounded-lg p-6 transition-all duration-200`,
-    subtle: `bg-[var(--tf-surface)] border border-[var(--tf-border-subtle)] shadow-xs rounded-lg p-4 transition-all duration-200`,
-    strong: `bg-white border border-[var(--tf-border-strong)] shadow-md rounded-lg p-6 transition-all duration-200`,
-    interactive: `bg-white border border-[var(--tf-border)] shadow-sm rounded-lg p-6 hover:shadow-md hover:border-[var(--tf-primary)] ${animations.smooth} cursor-pointer transition-all duration-200`,
+    default: `bg-[var(--tf-component-bg)] border border-[var(--tf-border)] shadow-lg rounded-lg p-6 transition-all duration-200`,
+    subtle: `bg-[var(--tf-surface)] border border-[var(--tf-border-subtle)] shadow-md rounded-lg p-4 transition-all duration-200`,
+    strong: `bg-[var(--tf-component-bg)] border border-[var(--tf-border-strong)] shadow-xl rounded-lg p-6 transition-all duration-200`,
+    interactive: `bg-[var(--tf-component-bg)] border border-[var(--tf-border)] shadow-lg rounded-lg p-6 hover:shadow-xl hover:border-[var(--tf-primary)] ${animations.smooth} cursor-pointer transition-all duration-200`,
   },
   container: {
     page: `bg-[var(--tf-page-bg)] min-h-screen`,

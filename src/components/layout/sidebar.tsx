@@ -53,6 +53,44 @@ const iconMap = {
   Plane,
 }
 
+// Category-based icon color mapping
+const getIconColor = (label: string): string => {
+  const labelLower = label.toLowerCase()
+  
+  // Green for primary actions
+  if (labelLower.includes('home') || labelLower.includes('dashboard')) {
+    return '#10b981' // Green
+  }
+  
+  // Blue for user/people management
+  if (labelLower.includes('user') || labelLower.includes('traveller') || labelLower.includes('passenger')) {
+    return '#60a5fa' // Blue
+  }
+  
+  // Yellow/Orange for flights/travel
+  if (labelLower.includes('flight') || labelLower.includes('trip') || labelLower.includes('ticket')) {
+    return '#fbbf24' // Amber
+  }
+  
+  // Purple for settings/configuration
+  if (labelLower.includes('setting') || labelLower.includes('config')) {
+    return '#a78bfa' // Purple
+  }
+  
+  // Red for security/protection
+  if (labelLower.includes('security') || labelLower.includes('protection')) {
+    return '#ef4444' // Red
+  }
+  
+  // Cyan for analytics/reporting
+  if (labelLower.includes('analytics') || labelLower.includes('report') || labelLower.includes('chart') || labelLower.includes('trending')) {
+    return '#06b6d4' // Cyan
+  }
+  
+  // Default green
+  return '#10b981'
+}
+
 interface SidebarProps {
   className?: string
   isMobile?: boolean
@@ -147,6 +185,7 @@ export function Sidebar({ className, isMobile = false, onClose, onCollapseChange
         {navigationItems.map((item) => {
           const Icon = iconMap[item.icon as keyof typeof iconMap]
           const isActive = pathname === item.href
+          const iconColor = getIconColor(item.label)
 
           return (
             <Link
@@ -160,15 +199,13 @@ export function Sidebar({ className, isMobile = false, onClose, onCollapseChange
               className={cn(
                 'group flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200',
                 isActive
-                  ? 'bg-primary/18 text-[var(--tf-text-primary)] border border-primary/40'
-                  : 'text-[var(--tf-text-secondary)] hover:bg-[var(--tf-nav-hover)] hover:text-[var(--tf-text-primary)]',
+                  ? 'bg-[var(--tf-surface-alt)] text-[var(--tf-text-primary)] border border-[var(--tf-border-strong)]'
+                  : 'text-[var(--tf-text-secondary)] hover:bg-[var(--tf-surface)] hover:text-[var(--tf-text-primary)]',
               )}
             >
               <Icon
-                className={cn(
-                  'h-5 w-5 flex-shrink-0',
-                  isActive ? 'text-primary' : 'text-primary/70 group-hover:text-primary',
-                )}
+                className="h-5 w-5 flex-shrink-0 transition-colors duration-200"
+                style={{ color: isActive ? iconColor : iconColor }}
                 aria-hidden="true"
               />
               {shouldShowText && <span>{item.label}</span>}

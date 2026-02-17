@@ -13,7 +13,7 @@ interface StatsCardProps {
 
 export function StatsCard({ title, value, description, icon: Icon, trend }: StatsCardProps) {
   return (
-    <div className="rounded-xl border outline outline-1 outline-[var(--tf-primary)] bg-[var(--tf-primary-light)] p-6 transition-all duration-300 text-[var(--tf-text-primary)] shadow-sm hover:shadow-md">
+    <div className="rounded-xl border-2 border-[var(--tf-primary)] bg-[var(--tf-component-bg)] bg-gradient-to-br from-[var(--tf-component-bg)] to-[var(--tf-surface)] p-6 transition-all duration-300 text-[var(--tf-text-primary)] shadow-lg hover:shadow-xl hover:border-[var(--tf-primary-focus)]">
       <div className="flex flex-row items-center justify-between space-y-0 pb-2">
         <h3 className="text-sm font-semibold text-[var(--tf-text-primary)]">{title}</h3>
         <Icon className="h-4 w-4 text-[var(--tf-primary)]" />
